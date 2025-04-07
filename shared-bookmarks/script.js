@@ -5,8 +5,26 @@
 // You can't open the index.html file using a file:// URL.
 
 import { getUserIds } from "./storage.js";
+document.getElementById("form-input").style.display = "none";
+
+function selectUser(){
+  const users = getUserIds();
+  let dropdown = document.getElementById("dropdown-users");
+  for(let i =0; i < users.length; i++){
+    let option = document.createElement("option");
+    option.value = users[i];
+    option.id = users[i];
+    option.innerHTML = `User ${users[i]}`
+    dropdown.appendChild(option);
+  }
+  dropdown.addEventListener("change", (e)=>{
+    e.preventDefault();
+    document.getElementById("form-input").style.display = "block";
+  })
+}
 
 window.onload = function () {
-  const users = getUserIds();
+  console.log(getUserIds())
+  selectUser();
   // document.querySelector("body").innerText = `There are ${users.length} users`;
 };
