@@ -26,7 +26,7 @@ function selectUser(){
   })
 }
 
-function addData(userId){
+ function addData(userId){
   document.getElementById("form-input").addEventListener("submit", (event)=>{
     event.preventDefault();
     const newData = {  // getting data from form input
@@ -36,7 +36,8 @@ function addData(userId){
       createdAt: new Date().toISOString() // "2025-04-07T18:32:15.123Z"
     }
     const rawData = getData(userId); // get users data from local storage
-    let localData = Array.isArray(rawData) ? rawData : rawData != null ? [rawData] : []; // check if data is an array
+    // let localData = Array.isArray(rawData) ? rawData : rawData != null ? [rawData] : []; // check if data is an array
+    let localData = getDataAsArray(rawData)
     localData.push(newData) //push the new data into users data which we got from local storage
     localData.sort((a, b)=> new Date(a.createdAt) - new Date(b.createdAt)); // sorting data from oldest to newest
     setData(userId, localData); // add users data back to local storage
@@ -77,6 +78,10 @@ function displayData(userId){
   
 }
 
+export function getDataAsArray(rawData){
+    let localData = Array.isArray(rawData) ? rawData : rawData != null ? [rawData] : []; // check if data is an array
+    return localData;
+}
 
 window.onload = function () {
 
