@@ -4,7 +4,7 @@
 // Note that when running locally, in order to open a web page which uses modules, you must serve the directory over HTTP e.g. with https://www.npmjs.com/package/http-server
 // You can't open the index.html file using a file:// URL.
 
-import { getUserIds, setData, getData } from "./storage.js";
+import { getUserIds, setData, getData, clearData } from "./storage.js";
 document.getElementById("form-input").style.display = "none"; // set input form as hide in default
 
 function selectUser(){
@@ -84,7 +84,7 @@ export function getDataAsArray(rawData){
 }
 
 window.onload = function () {
-
+  clearData()
   selectUser();
 
 };
