@@ -21,14 +21,18 @@ function selectUser(){
     e.preventDefault();
     document.getElementById("form-input").style.display = "block"; // when you select a user form will show up
     const userId = dropdown.options[dropdown.selectedIndex].id; // getting user id from selected option or user
-    displayData(userId);
-    addData(userId);
+    console.log(userId)
+    displayData();
   })
 }
 
- function addData(userId){
-  document.getElementById("form-input").addEventListener("submit", (event)=>{
+ function addData(){
+  const btnSubmit = document.getElementById("form-input");
+  btnSubmit.addEventListener("submit", (event)=>{
     event.preventDefault();
+    let dropdown = document.getElementById("dropdown-users");
+    const userId = dropdown.options[dropdown.selectedIndex].id;
+    console.log(userId, "  add data")
     const newData = {  // getting data from form input
       topic: document.getElementById("topic").value, 
       link: document.getElementById("link").value,
@@ -39,19 +43,23 @@ function selectUser(){
     // let localData = Array.isArray(rawData) ? rawData : rawData != null ? [rawData] : []; // check if data is an array
     let localData = getDataAsArray(rawData)
     localData.push(newData) //push the new data into users data which we got from local storage
-    localData.sort((a, b)=> new Date(a.createdAt) - new Date(b.createdAt)); // sorting data from oldest to newest
+    localData.sort((a, b)=>  new Date(b.createdAt) - new Date(a.createdAt)); // sorting data from oldest to newest
     setData(userId, localData); // add users data back to local storage
     document.getElementById("topic").value = ""; 
     document.getElementById("link").value = "";
     document.getElementById("desc").value = "";
-    displayData(userId);
+    displayData();
   })
 }
 
-function displayData(userId){
+function displayData(){
+  let dropdown = document.getElementById("dropdown-users");
+  const userId = dropdown.options[dropdown.selectedIndex].id;
+  console.log(userId, " display data")
   let ulList = document.getElementById("ul-list");
   ulList.innerHTML = "";
   const userData = getData(userId); // gets data from local storage
+  console.log(userData)
   if(!userData){
     let li1 = document.createElement("li");
     li1.innerHTML = "There is no data for this User";
@@ -59,6 +67,7 @@ function displayData(userId){
   }
   else{
     for(let i = 0; i < userData.length; i++){ // loop over to create elements and display bookmarks
+      console.log(userData[i])
       let li = document.createElement("li");
       let hTitle = document.createElement("a");
       hTitle.href = userData[i].link;
@@ -86,5 +95,5 @@ export function getDataAsArray(rawData){
 window.onload = function () {
   clearData()
   selectUser();
-
+  addData();
 };
